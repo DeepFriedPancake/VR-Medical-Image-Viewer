@@ -42,6 +42,7 @@ async function spjs_setup() {
     await pyodide.runPythonAsync('await test_load_scan_model(file_url)');
     console.log('python side loaded file and created .obj model file');
     status_span.innerHTML += '<br>' + 'python side loaded file and created .obj model file';
+
     // Get the string from Python global scope
     let objfile = pyodide.globals.get("loaded_model");
     console.log('.obj model file transfered to js side');
@@ -49,10 +50,10 @@ async function spjs_setup() {
 
     // call these funcs from setup_aframe.js
     // create element for aframe scene same as usual html elements
-    let objfile_url = obj_to_virtual_file(objfile);
+    let objfile_url = await obj_to_virtual_file(objfile);
     const main_parent_obj = document.getElementById("model-obj-parent");
     const ch = document.createElement('a-entity');
-    create_model(ch, objfile_url, "#bfbfcf", 0.90);
+    await create_model(ch, objfile_url, "#bfbfcf", 0.90);
     main_parent_obj.appendChild(ch);
     console.log('subject body scan model created');
     status_span.innerHTML += '<br>' + 'subject body scan model created';

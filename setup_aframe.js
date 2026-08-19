@@ -1,5 +1,5 @@
 // create a temporary file that can be accessd by url
-function obj_to_virtual_file(objfile) {
+async function obj_to_virtual_file(objfile) {
     const blob = new Blob([objfile], { type: "model/obj" });
     const url = URL.createObjectURL(blob);
     return url;
@@ -7,7 +7,7 @@ function obj_to_virtual_file(objfile) {
 
 var sc = 1.0;
 
-function create_model(model_elem, objfile_url, color, opa) {
+async function create_model(model_elem, objfile_url, color, opa) {
     // use the virtual/temporary file by its url
     model_elem.setAttribute('obj-model', {obj: objfile_url});
     // model_elem.setAttribute('position', `0 1.5 -0.3`);
@@ -18,7 +18,6 @@ function create_model(model_elem, objfile_url, color, opa) {
 }
 
 async function show_button_pressed() {
-    console.log("show button pressed.");
     const status_span = document.getElementById("status-show");
 
     status_span.innerHTML += '<br>' + "start loading scan file";

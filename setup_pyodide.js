@@ -28,18 +28,23 @@ async function install_needed_packages() {
 }
 
 async function spjs_setup() {
+    const status_span = document.getElementById("status-show");
+
     await main();
     await install_needed_packages();
     console.log('pyodide setup complete');
+    status_span.innerHTML += '<br>' + 'pyodide setup complete';
 
     // load the file using pyodide which then returns an obj model file
     const file_url = "examples/mosmed_covid19_0205.nii";
     pyodide.globals.set("file_url", file_url);
     await pyodide.runPythonAsync('await test_load_scan_model(file_url)');
     console.log('python side loaded file and created .obj model file');
+    status_span.innerHTML += '<br>' + 'python side loaded file and created .obj model file';
     // Get the string from Python global scope
     let objfile = pyodide.globals.get("loaded_model");
     console.log('.obj model file transfered to js side');
+    status_span.innerHTML += '<br>' + '.obj model file transfered to js side';
 
     // call these funcs from setup_aframe.js
     // create element for aframe scene same as usual html elements
@@ -49,6 +54,7 @@ async function spjs_setup() {
     create_model(ch, objfile_url, "#bfbfcf", 0.90);
     main_parent_obj.appendChild(ch);
     console.log('subject body scan model created');
+    status_span.innerHTML += '<br>' + 'subject body scan model created';
 }
 
 // document.addEventListener("DOMContentLoaded", spjs_setup);

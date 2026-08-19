@@ -12,11 +12,11 @@
         <link href="index.css" rel="stylesheet">
     </head>
     <body>
-        <a-scene renderer="sortTransparentObjects: true;">
+        <a-scene renderer="sortTransparentObjects: true;" cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;">
             <a-assets>
             </a-assets>
 
-            <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
+            <a-sphere color="gray" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
             <!-- <a-sphere color="yellow" radius="0.01" id="cursor" material="shader:flat" position="0.2 1.6 -0.2"></a-sphere> -->
             <a-entity html="cursor:#cursor; html:#select-file-ui;" position="0.4 1.6 -0.4" rotation="0 -45 0"></a-entity>
 
@@ -30,8 +30,26 @@
 			    <a-entity handy-controls="materialOverride:both;" material="color:gold;metalness:1;roughness:0;">
 				    <!-- These also do teleportaion for Blink controls in VR -->
 				    <!-- These are present for hand tracking but hands don't have joysticks so do nothing -->
-				    <!-- <a-entity data-right="ray" mixin="blink" cursor raycaster="showLine: true; far: 100; lineColor: red; objects: [html]; interval:100;"></a-entity> -->
-				    <!-- <a-entity data-left="ray" mixin="blink" cursor raycaster="showLine: true; far: 100; lineColor: red; objects: [html]; interval:100;"></a-entity> -->
+				    <a-entity data-right="ray" mixin="blink" cursor raycaster="showLine: true; far: 100; lineColor: red; objects: [html]; interval:100;"></a-entity>
+				    <a-entity data-left="ray" mixin="blink" cursor raycaster="showLine: true; far: 100; lineColor: red; objects: [html]; interval:100;"></a-entity>
+
+                    <!-- Use the finger tips for teleporting when the user points in VR with hand tracking -->
+                    <a-entity data-right="index-finger-tip" mixin="blink"
+                        blink-controls="startEvents:pose_point;cancelEvents:pose_cancel_point;endEvents:pose_point_fuseLong;">
+                    </a-entity>
+                    <a-entity data-left="index-finger-tip" mixin="blink"
+                        blink-controls="startEvents:pose_point;cancelEvents:pose_cancel_point;endEvents:pose_point_fuseLong;">
+                    </a-entity>
+
+                    <!-- These get drawn towards grabable objects, moving the whole hand and the attached elements-->
+                    <a-entity id="left-magnet" position="0 0.6 0" class="avatar-hand-left" data-left="grip"
+                        data-magnet="magnet-left"
+                        grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#left-no-magnet;">
+                    </a-entity>
+                    <a-entity id="right-magnet" position="0 0.6 0" class="avatar-hand-right" data-right="grip"
+                        data-magnet="magnet-right"
+                        grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#right-no-magnet;">
+                    </a-entity>
                 </a-entity>
             </a-entity>
         </a-scene>
@@ -39,7 +57,7 @@
         <section id="select-file-ui" class="choices-panel">
             <h2>View CT scan files in VR</h2>
             Choices: <br>
-            MosMed COVID19 dataset subject 0205 (.nii) <button id="show-mosmed-0205" onclick="show_button_pressed()">show</button> <br>
+            MosMed COVID19 dataset subject 0205 (.nii) <button id="show-mosmed-0205">show</button> <br>
             <span id="status-show"></span>
             <!-- taytos brayden clavicular rosk mosk reimu fumo haleema aardavark tolstoy cotash nubela jujimax -->
         </section>

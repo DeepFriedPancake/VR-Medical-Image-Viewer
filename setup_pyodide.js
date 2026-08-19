@@ -31,9 +31,10 @@ async function spjs_setup() {
     const status_span = document.getElementById("status-show");
 
     await main();
+    status_span.innerHTML += '<br>' + 'pyodide setup complete';
     await install_needed_packages();
     console.log('pyodide setup complete');
-    status_span.innerHTML += '<br>' + 'pyodide setup complete';
+    status_span.innerHTML += '<br>' + 'pyodide dependencies installed';
 
     // load the file using pyodide which then returns an obj model file
     const file_url = "examples/mosmed_covid19_0205.nii";

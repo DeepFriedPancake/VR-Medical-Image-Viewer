@@ -21,7 +21,7 @@ async function show_button_pressed() {
     console.log("show button pressed.");
     const status_span = document.getElementById("status-show");
 
-    status_span.innerHTML += '<br>' + "loading scan file...";
+    status_span.innerHTML += '<br>' + "start loading scan file";
     await spjs_setup();
     status_span.innerHTML += '<br>' + "loaded scan file";
 }

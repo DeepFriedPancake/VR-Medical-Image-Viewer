@@ -8,6 +8,8 @@
         <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
         <script src="setup_aframe.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.12/build/handy-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.12/build/magnet-helpers.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.7.0/build/aframe-html.min.js"></script>
         <link href="index.css" rel="stylesheet">
     </head>
@@ -16,15 +18,15 @@
             <a-assets>
             </a-assets>
 
-            <a-sphere color="gray" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
-            <!-- <a-sphere color="yellow" radius="0.01" id="cursor" material="shader:flat" position="0.2 1.6 -0.2"></a-sphere> -->
-            <a-entity html="cursor:#cursor; html:#select-file-ui;" position="0.4 1.6 -0.4" rotation="0 -45 0"></a-entity>
+            <!-- cursor indicator sphere -->
+            <a-sphere color="yellow" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
+            <a-entity html="cursor:#cursor; html:#select-file-ui;" position="0.5 0.9 -0.5" rotation="0 -45 0"></a-entity>
 
-            <a-entity id="model-obj-parent" rotation="-90 180 0" position="0 1.5 -0.3"></a-entity>
+            <a-entity id="model-obj-parent" rotation="-90 180 0" position="0 0.9 -0.6"></a-entity>
     
             <a-sky color="#ECECEC"></a-sky>
             <a-entity id="rig" position="0 0 0">
-                <a-entity camera="active: true" look-controls wasd-controls="acceleration: 6; fly: true;" position="0 1.6 0"></a-entity>
+                <a-entity camera="active: true" look-controls="pointerLockEnabled: false;" wasd-controls="acceleration: 6; fly: true;" position="0 1.0 0"></a-entity>
                 
                 <!-- Hand tracking -->
 			    <a-entity handy-controls="materialOverride:both;" material="color:gold;metalness:1;roughness:0;">
@@ -50,6 +52,12 @@
                         data-magnet="magnet-right"
                         grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#right-no-magnet;">
                     </a-entity>
+
+                    <!-- markers to let us know the real location of the hands, you probably want to make them visible="false" or just make them empty <a-entities> -->
+                    <a-entity id="left-no-magnet" data-left="grip" data-no-magnet radius="0.01">
+                        <a-entity html="cursor:#cursor;html:#my-interface" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0" scale="0.5 0.5 0.5"></a-entity>
+                    </a-entity>
+                    <a-entity id="right-no-magnet" data-right="grip" data-no-magnet radius="0.01"></a-entity>
                 </a-entity>
             </a-entity>
         </a-scene>
@@ -59,7 +67,6 @@
             Choices: <br>
             MosMed COVID19 dataset subject 0205 (.nii) <button id="show-mosmed-0205">show</button> <br>
             <span id="status-show"></span>
-            <!-- taytos brayden clavicular rosk mosk reimu fumo haleema aardavark tolstoy cotash nubela jujimax -->
         </section>
   </body>
 </html>
